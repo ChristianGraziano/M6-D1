@@ -1,0 +1,36 @@
+GET http://localhost:5050/posts
+
+#####
+
+POST http://localhost:5050/posts HTTP/1.1
+Content-Type: application/json
+
+{
+    "category": "horror",
+    "title": " secondo post di prova",
+    "cover": "https://picsum.photos/200/300?grayscale",
+    "readTime": {
+        "value": 10,
+        "unit": "minutes"
+    },
+    "author": {
+        "name": "Christian",
+        "avatar":" https://picsum.photos/id/237/200/300"
+    },
+    "content": "questo e il mio primo post pubblicato orgogliosamente!!!"
+}
+
+#####
+
+DELETE http://localhost:5050/posts/64b0706ff038a30c43acb941
+
+
+##### 
+
+PATCH http://localhost:5050/posts/64b0703ad74dc7a28bfd147f
+Content-Type: application/json
+
+{
+    "category": "fantasy",
+    "title": " io sono il post modificato con il patch"
+}

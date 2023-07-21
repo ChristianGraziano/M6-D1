@@ -6,9 +6,10 @@ POST http://localhost:5050/authors HTTP/1.1
 Content-Type: application/json
 
 {
-   "name": "mario ",
-   "surname": "rossi",
-   "email": "libero.it",
+   "name": "Christian ",
+   "surname": "Graziano",
+   "password":"hashed pass",
+   "email": "fulvio@libero.it",
    "birthdayDate": "13 giugno 1990",
    "avatar": "mario"
 }
@@ -29,3 +30,8 @@ Content-Type: application/json
 {
    "name": "Riccardo"
 }
+
+#####
+//chiamata x la ricerca del post in base all'autore
+
+GET  http://localhost:5050/authors/64aef06034e98208862343a9/posts/

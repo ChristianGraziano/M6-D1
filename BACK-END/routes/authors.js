@@ -1,14 +1,20 @@
 const express = require("express");
 
 const AuthorModel = require("../models/AuthorModel");
+const PostModel = require("../models/PostModel");
+const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
 router.get("/authors", async (req, res) => {
   try {
-    const author = await AuthorModel.find();
+    const author = await AuthorModel.find().populate("posts");
+    const totalAuthor = await AuthorModel.count();
+
     res.status(200).send({
       statusCode: 200,
+      message: " call GET authors successful",
+      totalAuthor: totalAuthor,
       users: author,
     });
   } catch (error) {
@@ -21,9 +27,14 @@ router.get("/authors", async (req, res) => {
 });
 
 router.post("/authors", async (req, res) => {
+  const salt = await bcrypt.genSalt(10); // per scegliere complessità algoritmo di protezione password.
+
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
   const newAuthor = new AuthorModel({
     name: req.body.name,
     surname: req.body.surname,
+    password: hashedPassword,
     email: req.body.email,
     birthdayDate: req.body.birthdayDate,
     avatar: req.body.avatar,
@@ -117,6 +128,33 @@ router.patch("/authors/:id", async (req, res) => {
     res.status(500).send({
       statusCode: 500,
       message: "Errore nella chiamata patch degli Autori!",
+      error,
+    });
+  }
+});
+
+// chiamata per cercare dei post in base all'autore
+
+router.get("/authors/:id/posts", async (req, res) => {
+  const { id } = req.params;
+  const findAuthor = await AuthorModel.findById(id);
+  console.log(findAuthor.name);
+
+  const findPost = await PostModel.find({
+    "author.name": findAuthor.name,
+  });
+  console.log(findAuthor.name);
+
+  try {
+    res.status(200).send({
+      statusCode: 200,
+      message: `post corrispondente all' ${id} trovato!`,
+      findPost,
+    });
+  } catch (error) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Errore nella ricerca!",
       error,
     });
   }

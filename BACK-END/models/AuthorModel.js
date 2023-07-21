@@ -10,6 +10,10 @@ const AuthorModelsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -22,7 +26,15 @@ const AuthorModelsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+        default: [],
+      },
+    ],
   },
+
   {
     timestamps: true, //mette data di modifica
     strict: true, // nessun campo differente dal payload

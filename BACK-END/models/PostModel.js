@@ -25,14 +25,8 @@ const PostModelSchema = new mongoose.Schema(
       },
     },
     author: {
-      name: {
-        type: String,
-        required: true,
-      },
-      avatar: {
-        type: String,
-        required: true,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Author",
     },
     content: {
       type: String,

@@ -16,3 +16,15 @@ Content-Type: application/json
     "rating": 2
 }
 
+#####
+PATCH  http://localhost:5050/comments/64bd8fa968a1306cf54f5dda HTTP/1.1
+Content-Type: application/json
+
+{
+    "content":"libro poco interessante(commento modificato con patch)"
+}
+
+
+#####
+
+DELETE http://localhost:5050/comments/64bd8fa968a1306cf54f5dda 

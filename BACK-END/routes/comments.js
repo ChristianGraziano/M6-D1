@@ -67,4 +67,71 @@ router.post("/comments/create", async (req, res) => {
     });
   }
 });
+
+// PATCH per modificare il commento
+
+router.patch("/comments/:commentId", async (req, res) => {
+  const { commentId } = req.params;
+  const commentExist = await CommentModel.findById(commentId);
+
+  if (!commentExist) {
+    return res.status(404).send({
+      statuscode: 404,
+      message: `Comment with id ${commentId} not found!`,
+    });
+  }
+
+  try {
+    const dataUpdate = req.body;
+    const options = { new: true };
+
+    const result = await CommentModel.findByIdAndUpdate(
+      commentId,
+      dataUpdate,
+      options
+    );
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Updated successfully!",
+      result,
+    });
+  } catch (error) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error in the call PATCH comment ",
+      error,
+    });
+  }
+});
+
+// DELETE per eliminare un commento
+
+router.delete("/comments/:commentId", async (req, res) => {
+  const { commentId } = req.params;
+  const commentExist = await CommentModel.findById(commentId);
+
+  if (!commentExist) {
+    return res.status(404).send({
+      statuscode: 404,
+      message: `Comment with id ${commentId} not found!`,
+    });
+  }
+
+  try {
+    const DeleteComment = await CommentModel.findByIdAndDelete(commentId);
+    res.status(200).send({
+      statusCode: 200,
+      message: `Comment with id ${commentId} deleted successfully`,
+      DeleteComment,
+    });
+  } catch (error) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error in the call DELETE comment",
+      error,
+    });
+  }
+});
+
 module.exports = router;

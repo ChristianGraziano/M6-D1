@@ -3,9 +3,9 @@ const express = require("express");
 const AuthorModel = require("../models/AuthorModel");
 const bcrypt = require("bcrypt");
 
-const router = express.Router();
+const login = express.Router();
 
-router.get("/login", async (req, res) => {
+login.get("/login", async (req, res) => {
   const user = await AuthorModel.findOne({ email: req.body.email });
 
   if (!user) {
@@ -31,4 +31,4 @@ router.get("/login", async (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = login;

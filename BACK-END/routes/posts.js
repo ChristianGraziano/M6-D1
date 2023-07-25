@@ -49,7 +49,8 @@ router.get("/posts", async (req, res) => {
     const post = await PostModel.find()
       .limit(pageSize)
       .skip((page - 1) * pageSize)
-      .populate("author", "name surname avatar");
+      .populate("author", "name surname avatar")
+      .populate("comments", "content rating userName");
 
     const totalPost = await PostModel.count();
 

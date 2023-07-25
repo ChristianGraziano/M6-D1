@@ -1,5 +1,6 @@
 const express = require("express");
 
+const CommentModel = require("../models/CommentModel");
 const AuthorModel = require("../models/AuthorModel");
 const PostModel = require("../models/PostModel");
 const bcrypt = require("bcrypt");
@@ -9,6 +10,7 @@ const router = express.Router();
 router.get("/authors", async (req, res) => {
   try {
     const author = await AuthorModel.find().populate("posts");
+
     const totalAuthor = await AuthorModel.count();
 
     res.status(200).send({

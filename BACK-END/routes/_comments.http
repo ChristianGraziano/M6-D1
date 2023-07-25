@@ -1,0 +1,18 @@
+#Chiamata per avere tutti i commenti
+GET http://localhost:5050/comments
+
+#####
+
+
+#chiamata POST per pubblicare un commento
+
+POST  http://localhost:5050/comments/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "userName": "64b97e29b91473faea476fd9",
+    "postId":"64bcfad98465bb81c338cd20",
+    "content":"Commento di prova da eliminare!!",
+    "rating": 2
+}
+

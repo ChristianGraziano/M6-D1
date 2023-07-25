@@ -10,6 +10,7 @@ const authorRoutes = require("./routes/authors");
 const postRoutes = require("./routes/posts");
 const resourceRoutes = require("./routes/resources");
 const loginRoute = require("./routes/login");
+const commentsRoute = require("./routes/comments");
 
 //middlewares
 const app = express();
@@ -20,6 +21,7 @@ app.use("/", authorRoutes);
 app.use("/", postRoutes);
 app.use("/", resourceRoutes);
 app.use("/", loginRoute);
+app.use("/", commentsRoute);
 
 mongoose.connect(process.env.MONGO_DB_URL);
 const db = mongoose.connection;

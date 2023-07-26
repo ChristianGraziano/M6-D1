@@ -29,4 +29,23 @@ const postSlice = createSlice({
 
 export default postSlice.reducer;
 
-export const postBlogPosts = createAsyncThunk("blogPost/post", async () => {});
+export const postBlogPosts = createAsyncThunk(
+  "blogPost/POST",
+  async (postPayload) => {
+    const data = new FormData();
+    data.append("category", postPayload.category);
+    data.append("title", postPayload.title);
+    data.append("cover", postPayload.cover);
+    data.append("readTimeValue", postPayload.readTime.value);
+    data.append("readTimeUnit", postPayload.readTime.unit);
+    data.append("author", postPayload.author);
+    data.append("content", postPayload.content);
+
+    const res = await fetch("http://localhost:5050/posts/internalUpload", {
+      method: "POST",
+      body: data,
+    });
+
+    const result = await res.json();
+  }
+);

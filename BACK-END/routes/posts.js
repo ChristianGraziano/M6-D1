@@ -7,8 +7,44 @@ const {
   postBodyParams,
   validatePostBody,
 } = require("../middlewares/postValidation");
-
 const router = express.Router();
+
+//Caricamento immagine con multer locale
+
+const multer = require("multer");
+const crypto = require("crypto");
+
+const internalStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploads);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = `${crypto.randomUUID()}`;
+    const fileExt = file.originalname.split(".").pop();
+    cb(null, `${file.originalname}-${uniqueSuffix}.${fileExt}`);
+  },
+});
+
+const uploads = multer({ storage: internalStorage });
+
+router.post(
+  "posts/internalUpload",
+  uploads.single("cover"),
+  async (req, res) => {
+    try {
+      res.status(200).send({
+        img: req.file.path,
+        message: " correct upload image!",
+      });
+    } catch (error) {
+      res.status(500).send({
+        statusCode: 500,
+        message: "Internal Server Error! in the upload image",
+        error,
+      });
+    }
+  }
+);
 
 //chiamata get per cercare il titolo dei libri
 

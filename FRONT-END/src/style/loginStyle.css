@@ -1,0 +1,13 @@
+.button_login {
+  width: 8rem;
+  margin: auto;
+}
+
+.input_style {
+  background-color: antiquewhite;
+  text-align: center;
+}
+
+.div_login {
+  height: 80vh;
+}

@@ -7,6 +7,27 @@ const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
+// Cloud Storage
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const multer = require("multer");
+const crypto = require("crypto");
+const uniqueSuffix = `${crypto.randomUUID()}`;
+
+const cludStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "AuthorAvatarImage",
+    format: async (req, file) => {
+      const fileExt = file.originalname.split(".").pop();
+      return fileExt;
+    },
+    public_id: (req, file) => `${file.originalname}-${uniqueSuffix}`,
+  },
+});
+
+// chiamata GET per avere tutti gli autori
+
 router.get("/authors", async (req, res) => {
   try {
     const author = await AuthorModel.find().populate("posts");

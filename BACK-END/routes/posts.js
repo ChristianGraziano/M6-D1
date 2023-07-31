@@ -7,6 +7,9 @@ const {
   postBodyParams,
   validatePostBody,
 } = require("../middlewares/postValidation");
+
+const verifyToken = require("../middlewares/verifyToken");
+
 const router = express.Router();
 
 //Caricamento immagine con multer locale
@@ -16,7 +19,7 @@ const crypto = require("crypto");
 
 const internalStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploads);
+    cb(null, "uploads"); // secondo parametro CARTELLA DI DESTINAZIONE!!
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = `${crypto.randomUUID()}`;
@@ -28,7 +31,7 @@ const internalStorage = multer.diskStorage({
 const uploads = multer({ storage: internalStorage });
 
 router.post(
-  "posts/internalUpload",
+  "/posts/internalUpload",
   uploads.single("cover"),
   async (req, res) => {
     try {
@@ -78,7 +81,7 @@ router.get("/posts/title", async (req, res) => {
 });
 
 // chiamata get di tutti i post + paginazione
-router.get("/posts", async (req, res) => {
+router.get("/posts", verifyToken, async (req, res) => {
   const { page = 1, pageSize = 3 } = req.query;
 
   try {

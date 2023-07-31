@@ -2,10 +2,11 @@ const express = require("express");
 
 const AuthorModel = require("../models/AuthorModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const login = express.Router();
 
-login.get("/login", async (req, res) => {
+login.post("/login", async (req, res) => {
   const user = await AuthorModel.findOne({ email: req.body.email });
 
   if (!user) {
@@ -24,10 +25,22 @@ login.get("/login", async (req, res) => {
     });
   }
 
-  res.status(200).send({
+  // generatore Token
+  const token = jwt.sign(
+    {
+      name: user.name,
+      surname: user.surname,
+      birthdayDate: user.birthdayDate,
+      avatar: user.avatar,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" }
+  );
+
+  res.header("Authorization", token).status(200).send({
     stusCode: 200,
     message: "login succesfull!!",
-    payload: user,
+    token,
   });
 });
 

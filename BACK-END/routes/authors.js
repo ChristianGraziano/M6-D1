@@ -4,27 +4,9 @@ const CommentModel = require("../models/CommentModel");
 const AuthorModel = require("../models/AuthorModel");
 const PostModel = require("../models/PostModel");
 const bcrypt = require("bcrypt");
+const AvatarImg = require("../middlewares/UploadCloudinary");
 
 const router = express.Router();
-
-// Cloud Storage
-const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const multer = require("multer");
-const crypto = require("crypto");
-const uniqueSuffix = `${crypto.randomUUID()}`;
-
-const cludStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "AuthorAvatarImage",
-    format: async (req, file) => {
-      const fileExt = file.originalname.split(".").pop();
-      return fileExt;
-    },
-    public_id: (req, file) => `${file.originalname}-${uniqueSuffix}`,
-  },
-});
 
 // chiamata GET per avere tutti gli autori
 
@@ -49,36 +31,43 @@ router.get("/authors", async (req, res) => {
   }
 });
 
-router.post("/authors", async (req, res) => {
-  const salt = await bcrypt.genSalt(10); // per scegliere complessità algoritmo di protezione password.
+//Post per creare nuovo autore
+router.post(
+  "/register/authors",
+  AvatarImg.single("avatar"),
+  async (req, res) => {
+    const salt = await bcrypt.genSalt(10); // per scegliere complessità algoritmo di protezione password.
 
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-  const newAuthor = new AuthorModel({
-    name: req.body.name,
-    surname: req.body.surname,
-    password: hashedPassword,
-    email: req.body.email,
-    birthdayDate: req.body.birthdayDate,
-    avatar: req.body.avatar,
-  });
-
-  try {
-    const author = await newAuthor.save();
-
-    res.status(201).send({
-      statusCode: 201,
-      message: "Autore Aggiunto correttamente!",
-      payload: author,
+    const newAuthor = new AuthorModel({
+      name: req.body.name,
+      surname: req.body.surname,
+      password: hashedPassword,
+      email: req.body.email,
+      birthdayDate: req.body.birthdayDate,
+      avatar: req.file.path,
     });
-  } catch (error) {
-    res.status(500).send({
-      statusCode: 500,
-      message: "Internal Server Error!",
-      error,
-    });
+
+    try {
+      const author = await newAuthor.save();
+
+      res.status(201).send({
+        statusCode: 201,
+        message: "Autore Aggiunto correttamente!",
+        payload: author,
+      });
+    } catch (error) {
+      res.status(500).send({
+        statusCode: 500,
+        message: "Internal Server Error!",
+        error,
+      });
+    }
   }
-});
+);
+
+//Ricerca autori per ID
 
 router.get("/authors/:id", async (req, res) => {
   const { id } = req.params;

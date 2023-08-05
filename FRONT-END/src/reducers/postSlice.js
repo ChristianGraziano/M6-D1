@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const endpoint = " http://localhost:5050/posts/create";
+const endpoint = " http://localhost:5050/posts";
 
 const initialState = {
   postsArray: [],
@@ -41,7 +41,7 @@ export const postBlogPosts = createAsyncThunk(
     data.append("author", postPayload.author);
     data.append("content", postPayload.content);
 
-    const res = await fetch("http://localhost:5050/posts/internalUpload", {
+    const res = await fetch(`${endpoint}/create`, {
       method: "POST",
       body: data,
     });

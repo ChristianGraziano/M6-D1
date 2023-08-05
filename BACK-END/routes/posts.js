@@ -1,4 +1,5 @@
 const express = require("express");
+const PostImg = require("../middlewares/UploadCloudinary");
 
 const AuthorModel = require("../models/AuthorModel");
 const PostModel = require("../models/PostModel");
@@ -12,10 +13,11 @@ const verifyToken = require("../middlewares/verifyToken");
 
 const router = express.Router();
 
+const crypto = require("crypto");
+
 //Caricamento immagine con multer locale
 
-const multer = require("multer");
-const crypto = require("crypto");
+/* const multer = require("multer");
 
 const internalStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -29,8 +31,9 @@ const internalStorage = multer.diskStorage({
 });
 
 const uploads = multer({ storage: internalStorage });
+ */
 
-router.post(
+/* router.post(
   "/posts/internalUpload",
   uploads.single("cover"),
   async (req, res) => {
@@ -47,7 +50,7 @@ router.post(
       });
     }
   }
-);
+); */
 
 //chiamata get per cercare il titolo dei libri
 
@@ -112,6 +115,7 @@ router.get("/posts", verifyToken, async (req, res) => {
 //chiamata per creare un nuovo post
 router.post(
   "/posts/create",
+  PostImg.single("cover"),
 
   async (req, res) => {
     const user = await AuthorModel.findOne({ _id: req.body.author });
@@ -125,7 +129,7 @@ router.post(
     const newPost = new PostModel({
       category: req.body.category,
       title: req.body.title,
-      cover: req.body.cover,
+      cover: req.file.path,
       readTime: req.body.readTime,
       author: user._id,
       content: req.body.content,

@@ -1,42 +1,39 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { postBlogPosts } from "../reducers/postSlice";
+import Form from "react-bootstrap/Form";
 
 function NewPostModal() {
   const dispatch = useDispatch();
 
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [content, setContent] = useState("");
-  const [readTimeValue, setReadTimeValue] = useState("");
-  const [readTimeUnit, setReadTimeUnit] = useState("");
-  const [cover, setCover] = useState(null);
+  const category = useRef(null);
+  const title = useRef(null);
+  const author = useRef(null);
+  const content = useRef(null);
+  const readTimeValue = useRef(null);
+  const readTimeUnit = useRef(null);
+  const cover = useRef(null);
 
-  const handleFileChange = (e) => {
-    setCover(e.target.files[0]);
-  };
-  const submitForm = async (e) => {
-    e.preventDefault();
-
+  const submitForm = async () => {
     const postPayload = {
-      category: category,
-      title: title,
-      author: author,
-      content: content,
+      category: category.current.value,
+      title: title.current.value,
+      author: author.current.value,
+      content: content.current.value,
       readTime: {
-        value: readTimeValue,
-        unit: readTimeUnit,
+        value: readTimeValue.current.value,
+        unit: readTimeUnit.current.value,
       },
-      cover: cover,
+      cover: cover.current.files[0],
     };
 
     dispatch(postBlogPosts(postPayload));
   };
 
+  //funzione della modale di bootstrap
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -53,51 +50,53 @@ function NewPostModal() {
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={submitForm}>
-            <input
-              placeholder="category"
-              type="text"
-              onChange={(e) => setCategory(e.target.value)}
+          <Form>
+            <Form.Control
+              type="input"
+              className="my-1"
+              ref={category}
+              placeholder="Category"
             />
-            <input
-              placeholder="title"
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
+            <Form.Control
+              type="input"
+              className="my-1"
+              ref={title}
+              placeholder="Title"
             />
-            <input
-              placeholder="cover"
-              type="file"
-              onChange={handleFileChange}
+            <Form.Control
+              type="input"
+              className="my-1"
+              ref={author}
+              placeholder="Author ID"
             />
-            <input
-              placeholder="read time value"
-              type="text"
-              onChange={(e) => setReadTimeValue(e.target.value)}
+            <Form.Control
+              type="input"
+              className="my-1"
+              ref={content}
+              placeholder="Content"
             />
-            <input
-              placeholder="read time unit"
-              type="text"
-              onChange={(e) => setReadTimeUnit(e.target.value)}
+            <Form.Control
+              type="input"
+              className="my-1"
+              ref={readTimeValue}
+              placeholder="Read Time"
             />
-            <input
-              placeholder="author id"
-              type="text"
-              onChange={(e) => setAuthor(e.target.value)}
+            <Form.Control
+              type="input"
+              className="my-1"
+              ref={readTimeUnit}
+              placeholder="Read Unit"
             />
-            <input
-              placeholder="content"
-              type="text"
-              onChange={(e) => setContent(e.target.value)}
-            />
+            <Form.Control type="file" className="my-1" ref={cover} />
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" onClick={submitForm}>
                 Post
               </Button>
             </Modal.Footer>
-          </form>
+          </Form>
         </Modal.Body>
       </Modal>
     </>

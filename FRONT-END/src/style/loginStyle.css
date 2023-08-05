@@ -9,5 +9,22 @@
 }
 
 .div_login {
-  height: 80vh;
+  height: 100vh;
+  background-image: url(https://www.vivereilmare.it/wp-content/uploads/2021/05/shutterstock_638658136.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.div_form {
+  height: 100vh;
+}
+
+.div_white {
+  background-color: aliceblue;
+  border-radius: 10%;
+}
+
+.icon-github {
+  font-size: 1.5rem;
 }

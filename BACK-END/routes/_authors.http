@@ -2,13 +2,13 @@ GET http://localhost:5050/authors
 
 #####
 
-POST http://localhost:5050/authors/create HTTP/1.1
+POST http://localhost:5050/register/authors HTTP/1.1
 Content-Type: application/json
 
 {
    "name": "utente prova login",
    "surname": "login",
-   "password":"hashed pass 2",
+   "password":"hashedpass2",
    "email": "login@libero.it",
    "birthdayDate": "13 giugno 1990",
    "avatar": "mario"

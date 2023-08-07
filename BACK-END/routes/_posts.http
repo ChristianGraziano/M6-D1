@@ -4,10 +4,11 @@ GET http://localhost:5050/posts/title?postTitle=terzo
 
 
 #chiamata per avere tutti i post
+
 GET http://localhost:5050/posts/?pageSize=1000
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXRlbnRlIHByb3ZhIGxvZ2luIiwic3VybmFtZSI6ImxvZ2luIiwiYmlydGhkYXlEYXRlIjoiMTMgZ2l1Z25vIDE5OTAiLCJhdmF0YXIiOiJtYXJpbyIsImlhdCI6MTY5MDcyODY3MiwiZXhwIjoxNjkwODE1MDcyfQ.y2cYyGvik__tCqBKR6hoKqZStM97Gxghs_H0Cfo2fHs
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXRlbnRlIHByb3ZhIGxvZ2luIiwic3VybmFtZSI6ImxvZ2luIiwiYmlydGhkYXlEYXRlIjoiMTMgZ2l1Z25vIDE5OTAiLCJhdmF0YXIiOiJtYXJpbyIsImlhdCI6MTY5MTM1MTM2NCwiZXhwIjoxNjkxNDM3NzY0fQ.ZUTJ2CcgkNMhz15I6LGK1_FQR5coqwHXti_bce9nUv0
+installHook.js:251 
 #####
 
 POST http://localhost:5050/posts/create HTTP/1.1

@@ -44,7 +44,7 @@ github.get(
   "/auth/github",
   passport.authenticate("github", { scope: ["user:email"] }),
   (req, res) => {
-    const redirectUrl = `http://localhost:3000/success?user=${encodeURIComponent(
+    const redirectUrl = `http://localhost:3000/success/${encodeURIComponent(
       JSON.stringify(req.user)
     )}`;
     res.redirect(redirectUrl);
@@ -57,10 +57,10 @@ github.get(
   (req, res) => {
     const { user } = req;
     const token = jwt.sign(user, process.env.JWT_SECRET);
-    const redirectUrl = `http://localhost:3000/success?token= ${encodeURIComponent(
+    const redirectUrl = `http://localhost:3000/success/${encodeURIComponent(
       token
     )}`;
-    rex.redirect(redirectUrl);
+    res.redirect(redirectUrl);
   }
 );
 

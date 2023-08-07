@@ -16,12 +16,17 @@ const Login = () => {
 
     await axios
       .post("http://localhost:5050/login", loginFormData)
+      .then((res) => console.log(res.data))
       .then((res) => {
         localStorage.setItem("userLoggedIn", JSON.stringify(res.data.token));
-      });
+      })
+      .catch((error) => console.log(error));
     navigate("/homepage");
   };
 
+  const handleLoginWithGithub = () => {
+    window.location.href = "http://localhost:5050/auth/github";
+  };
   return (
     <>
       <div className="div_login">
@@ -67,7 +72,10 @@ const Login = () => {
                     >
                       Login
                     </button>
-                    <button className=" p-2 bg bg-dark text-light rounded shadow mt-4 d-flex align-items-center justify-content-center gap-2">
+                    <button
+                      onClick={handleLoginWithGithub}
+                      className=" p-2 bg bg-dark text-light rounded shadow mt-4 d-flex align-items-center justify-content-center gap-2"
+                    >
                       <AiFillGithub className="icon-github" />
                       Login con Github
                     </button>

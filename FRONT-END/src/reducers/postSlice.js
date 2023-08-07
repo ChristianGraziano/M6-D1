@@ -13,7 +13,17 @@ const postSlice = createSlice({
   reducers: {}, // per gestire funzioni sincrone
   extraReducers: (builder) => {
     builder
-
+      //chiamata GET
+      .addCase(getBlogPost.fulfilled, (state, action) => {
+        state.postsArray = action.payload.blogPosts;
+        state.status = "idle";
+      })
+      .addCase(getBlogPost.pending, (state, action) => {
+        state.status = "pending";
+      })
+      .addCase(getBlogPost.rejected, (state, action) => {
+        state.status = "error";
+      })
       // Chiamata POST
       .addCase(postBlogPosts.fulfilled, (state, action) => {
         state.status = "idle";
@@ -49,3 +59,9 @@ export const postBlogPosts = createAsyncThunk(
     const result = await res.json();
   }
 );
+
+export const getBlogPost = createAsyncThunk("blogPost/GET", async () => {
+  const request = await fetch(`${endpoint}`);
+  const result = await request.json();
+  return result;
+});

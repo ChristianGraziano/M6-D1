@@ -16,9 +16,9 @@ const Success = () => {
     if (token) {
       saveUserLocalStorage(token);
 
-      // setTimeout(() => {
-      //   navigate("/homepage");
-      // }, 30000);
+      setTimeout(() => {
+        navigate("/homepage");
+      }, 5000);
     }
   }, [token, navigate, session]);
 

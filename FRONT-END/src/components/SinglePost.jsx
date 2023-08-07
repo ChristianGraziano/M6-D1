@@ -1,32 +1,25 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-function SinglePost(item) {
+function SinglePost({ post }) {
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src={item.post.cover} />
+      <Card.Img variant="top" src={post.cover} />
       <Card.Body>
-        <Card.Title>{item.post.title}</Card.Title>
-        <Card.Text>{item.post.content}</Card.Text>
+        <Card.Title>{post.title}</Card.Title>
+        <Card.Text>{post.content}</Card.Text>
       </Card.Body>
       <Card.Body>
         <Card.Text>
-          {" "}
-          in: <em>{item.post.category}</em>
-        </Card.Text>
-        <Card.Text>
-          Read Time:{" "}
-          <em>
-            {item.post.readTime.value} {item.post.readTime.unit}
-          </em>
+          <em>{post.category}</em>
         </Card.Text>
       </Card.Body>
-      <Card.Footer>
+      {/* <Card.Footer>
         <Card.Title>
-          <img src={item.author.avatar} />
-          {item.author.name} {item.author.surname}
+          <img src={author.avatar} />
+          {item.author.name} {author.surname}
         </Card.Title>
-      </Card.Footer>
+      </Card.Footer> */}
     </Card>
   );
 }

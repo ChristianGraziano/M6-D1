@@ -84,8 +84,8 @@ router.get("/posts/title", async (req, res) => {
 });
 
 // chiamata get di tutti i post + paginazione
-router.get("/posts", verifyToken, async (req, res) => {
-  const { page = 1, pageSize = 3 } = req.query;
+router.get("/posts", async (req, res) => {
+  const { page = 1, pageSize = 10 } = req.query;
 
   try {
     const post = await PostModel.find()

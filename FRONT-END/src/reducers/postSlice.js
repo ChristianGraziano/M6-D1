@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const endpoint = " http://localhost:5050/posts";
+const endpoint = "http://localhost:5050/posts";
 
 const initialState = {
   postsArray: [],
@@ -15,8 +16,7 @@ const postSlice = createSlice({
     builder
       //chiamata GET
       .addCase(getBlogPost.fulfilled, (state, action) => {
-        state.postsArray = action.payload.blogPosts;
-        state.status = "idle";
+        state.postsArray = action.payload;
       })
       .addCase(getBlogPost.pending, (state, action) => {
         state.status = "pending";
@@ -37,11 +37,9 @@ const postSlice = createSlice({
   },
 });
 
-export default postSlice.reducer;
-
 export const postBlogPosts = createAsyncThunk(
   "blogPost/POST",
-  async (postPayload) => {
+  async (postPayload, { dispatch }) => {
     const data = new FormData();
     data.append("category", postPayload.category);
     data.append("title", postPayload.title);
@@ -54,14 +52,22 @@ export const postBlogPosts = createAsyncThunk(
     const res = await fetch(`${endpoint}/create`, {
       method: "POST",
       body: data,
-    });
+    }).then(() => dispatch(getBlogPost));
 
     const result = await res.json();
   }
 );
 
 export const getBlogPost = createAsyncThunk("blogPost/GET", async () => {
-  const request = await fetch(`${endpoint}`);
-  const result = await request.json();
-  return result;
+  try {
+    const res = await axios.get(`${endpoint}`);
+    if (!res) {
+      console.log(`HTTP error! status: ${res.status}`);
+    }
+    console.log(res.data.post);
+  } catch (error) {
+    console.log(error);
+  }
 });
+
+export default postSlice.reducer;

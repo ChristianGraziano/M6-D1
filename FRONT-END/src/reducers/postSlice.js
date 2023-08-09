@@ -39,7 +39,7 @@ const postSlice = createSlice({
 
 export const postBlogPosts = createAsyncThunk(
   "blogPost/POST",
-  async (postPayload, { dispatch }) => {
+  async (postPayload) => {
     const data = new FormData();
     data.append("category", postPayload.category);
     data.append("title", postPayload.title);
@@ -48,13 +48,16 @@ export const postBlogPosts = createAsyncThunk(
     data.append("readTimeUnit", postPayload.readTime.unit);
     data.append("author", postPayload.author);
     data.append("content", postPayload.content);
+    try {
+      const res = await fetch(`${endpoint}/create`, {
+        method: "POST",
+        body: data,
+      });
 
-    const res = await fetch(`${endpoint}/create`, {
-      method: "POST",
-      body: data,
-    }).then(() => dispatch(getBlogPost));
-
-    const result = await res.json();
+      const result = await res.json();
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -65,6 +68,7 @@ export const getBlogPost = createAsyncThunk("blogPost/GET", async () => {
       console.log(`HTTP error! status: ${res.status}`);
     }
     console.log(res.data.post);
+    return res.data.post;
   } catch (error) {
     console.log(error);
   }

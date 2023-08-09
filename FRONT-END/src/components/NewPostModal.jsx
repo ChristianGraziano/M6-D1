@@ -41,13 +41,13 @@ function NewPostModal() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="warning" onClick={handleShow}>
         Add New Post
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Create New Post!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

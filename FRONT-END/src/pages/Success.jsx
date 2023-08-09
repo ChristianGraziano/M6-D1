@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import { useParams, useNavigate, json } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSession } from "../middlerwares/ProtectedRoutes";
+import "../style/successPageStyle.css";
+import SpinnerLoading from "../components/SpinnerLoading";
 
 const Success = () => {
   const { token } = useParams();
@@ -18,13 +20,25 @@ const Success = () => {
 
       setTimeout(() => {
         navigate("/homepage");
-      }, 5000);
+      }, 3000);
     }
   }, [token, navigate, session]);
 
   return (
-    <div className="w-100 h-100">
-      <div>Benvenuto {session.username}</div>
+    <div className="div-success">
+      {session ? (
+        <div className="welcome-success">Benvenuto {session.username}</div>
+      ) : (
+        <div>
+          {" "}
+          <SpinnerLoading />
+        </div>
+      )}
+      <span className=" fw-bold">
+        Login con github effettuato con successo sarai reinderizzato alla
+        Homepage in pochi secondi...
+      </span>
+      <SpinnerLoading />
     </div>
   );
 };

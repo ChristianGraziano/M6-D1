@@ -1,3 +1,22 @@
 body {
   font-family: "Ubuntu", sans-serif;
+  background: #1c6ea4;
+  background: -moz-radial-gradient(
+    center,
+    #1c6ea4 0%,
+    #4ba3c3 50%,
+    #144e75 100%
+  );
+  background: -webkit-radial-gradient(
+    center,
+    #1c6ea4 0%,
+    #4ba3c3 50%,
+    #144e75 100%
+  );
+  background: radial-gradient(
+    ellipse at center,
+    #1c6ea4 0%,
+    #4ba3c3 50%,
+    #144e75 100%
+  );
 }

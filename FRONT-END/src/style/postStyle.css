@@ -1,0 +1,13 @@
+.content-post-style {
+  white-space: nowrap; /* Evita il wrap del testo su più righe */
+  overflow: hidden; /* Nasconde eventuali contenuti oltre i limiti del div */
+  text-overflow: ellipsis; /* Aggiunge le ellissi alla fine del testo nascosto */
+}
+
+.img-post {
+  height: 60%;
+}
+
+.postCard-style {
+  width: 18rem;
+}

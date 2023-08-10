@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import AlertDanger from "../components/AlertDanger";
 
+const endpoint = "http://localhost:5050";
+
 const initialState = {
+  authorsArray: [],
   author: null,
   status: "idle",
 };
@@ -13,6 +16,8 @@ const authorSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+
+      //Chiamata POST
       .addCase(authorPost.fulfilled, (state, action) => {
         state.status = "idle";
       })
@@ -20,6 +25,17 @@ const authorSlice = createSlice({
         state.status = "error";
       })
       .addCase(authorPost.pending, (state, action) => {
+        state.status = "pending";
+      })
+
+      //Chiamata GET
+      .addCase(getAuthors.fulfilled, (state, action) => {
+        state.authorsArray = action.payload;
+      })
+      .addCase(getAuthors.rejected, (state, action) => {
+        state.status = "error";
+      })
+      .addCase(getAuthors.pending, (state, action) => {
         state.status = "pending";
       });
   },
@@ -37,18 +53,28 @@ export const authorPost = createAsyncThunk(
     form.append("avatar", author.avatar);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5050/register/authors/",
-        form,
-        {
-          Headers: { "Content Type": "multipart/form-data" },
-        }
-      );
+      const res = await axios.post(` ${endpoint}/register/authors/`, form, {
+        Headers: { "Content-Type": "multipart/form-data" },
+      });
       return res.data;
     } catch (error) {
       console.log(error);
     }
   }
 );
+
+export const getAuthors = createAsyncThunk("authors/Get", async () => {
+  try {
+    const res = await axios.get(`${endpoint}/authors`);
+    if (!res) {
+      console.log(`HTTP error! status: ${res.status}`);
+    }
+    console.log(res.data.users);
+    return res.data.users;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+});
 
 export default authorSlice.reducer;

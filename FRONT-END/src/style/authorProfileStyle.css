@@ -1,0 +1,14 @@
+.img-author-profile {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.background-offcanvas {
+  background-color: #defef4;
+}
+
+.img-author-profile:hover {
+  transform: scale(1.2);
+}

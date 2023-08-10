@@ -33,6 +33,13 @@ const postSlice = createSlice({
       })
       .addCase(postBlogPosts.pending, (state, action) => {
         state.status = "pending";
+      })
+
+      //Chiamata Delete
+      .addCase(deleteBlogPost.fulfilled, (state, action) => {
+        state.postsArray = state.postsArray.filter(
+          (post) => post._id !== action.payload
+        );
       });
   },
 });
@@ -73,5 +80,17 @@ export const getBlogPost = createAsyncThunk("blogPost/GET", async () => {
     console.log(error);
   }
 });
+
+export const deleteBlogPost = createAsyncThunk(
+  "blogPost/Delete",
+  async (postId) => {
+    try {
+      const res = await axios.delete(`${endpoint}/${postId}`);
+      return res.data.posts;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export default postSlice.reducer;

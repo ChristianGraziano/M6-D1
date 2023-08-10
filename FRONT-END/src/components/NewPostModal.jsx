@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { postBlogPosts } from "../reducers/postSlice";
+import { getBlogPost, postBlogPosts } from "../reducers/postSlice";
 import Form from "react-bootstrap/Form";
 
 function NewPostModal() {

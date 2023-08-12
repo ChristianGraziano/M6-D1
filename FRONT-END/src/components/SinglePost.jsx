@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { deleteBlogPost, getBlogPost } from "../reducers/postSlice";
 import { Link } from "react-router-dom";
+import { useSession } from "../middlerwares/ProtectedRoutes";
 
 function SinglePost({ post }) {
   const dispatch = useDispatch();
@@ -14,6 +15,9 @@ function SinglePost({ post }) {
   const handleDelete = () => {
     dispatch(deleteBlogPost(post._id)).then(() => dispatch(getBlogPost()));
   };
+
+  const session = useSession();
+  console.log(session);
 
   return (
     // <Col lg={3} md={4} sm={12} xs={12}>

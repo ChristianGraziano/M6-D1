@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { AiOutlineUser } from "react-icons/ai";
 import { useSession } from "../middlerwares/ProtectedRoutes";
-import { getAuthors } from "../reducers/authorSlice";
+import { getAuthors, filterAuthor } from "../reducers/authorSlice";
 import AuthorProfile from "./AuthorProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "nanoid";
@@ -14,8 +14,22 @@ import { FiUsers } from "react-icons/fi";
 function AuthorOffCanvas() {
   const session = useSession();
   const dispatch = useDispatch();
-
+  const [searchTerm, setSearchTerm] = useState("");
   const { authorsArray } = useSelector((state) => state.author);
+
+  const handleSearch = (e) => {
+    const { value } = e.target;
+
+    if (value === "") {
+      dispatch(getAuthors());
+    }
+    setSearchTerm(value);
+  };
+
+  const filteredResult = (e) => {
+    e.preventDefault();
+    dispatch(filterAuthor(searchTerm));
+  };
 
   useEffect(() => {
     dispatch(getAuthors());
@@ -49,14 +63,17 @@ function AuthorOffCanvas() {
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Form className="d-flex mt-2 mb-3">
+          <Form onSubmit={filteredResult} className="d-flex mt-2 mb-3">
             <Form.Control
               type="search"
               placeholder="Search"
               className="me-2"
               aria-label="Search"
+              onChange={handleSearch}
             />
-            <Button variant="outline-success">Search</Button>
+            <Button onClick={filteredResult} variant="outline-success">
+              Search
+            </Button>
           </Form>
           <section className="d-flex flex-column justify-content-center align-item-center gap-3">
             {authorsArray &&

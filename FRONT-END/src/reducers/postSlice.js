@@ -89,23 +89,6 @@ export const postBlogPosts = createAsyncThunk(
   }
 );
 
-//chiamata per la ricerca tramite il titolo del post!
-// export const searchBlogPost = createAsyncThunk(
-//   "searchBlogPost/get",
-//   async (payload) => {
-//     try {
-//       const res = await axios.get(`${endpoint}/title?postTitle=${payload}`);
-//       if (!res) {
-//         console.log(`HTTP error! status: ${res.status}`);
-//       }
-//       console.log(res.data.post);
-//       return res.data.post;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
-
 export const getBlogPost = createAsyncThunk("blogPost/GET", async () => {
   try {
     const res = await axios.get(`${endpoint}`);

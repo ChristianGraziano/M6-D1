@@ -13,7 +13,13 @@ const initialState = {
 const authorSlice = createSlice({
   name: "authors",
   initialState,
-  reducers: {},
+  reducers: {
+    filterAuthor: (state, action) => {
+      state.authorsArray = state.authorsArray.filter((author) => {
+        return author.name.toLowerCase().includes(action.payload.toLowerCase());
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
 
@@ -79,4 +85,5 @@ export const getAuthors = createAsyncThunk("authors/Get", async () => {
 
 // chiamata GET per carcare l'autore con id
 
+export const { filterAuthor } = authorSlice.actions;
 export default authorSlice.reducer;

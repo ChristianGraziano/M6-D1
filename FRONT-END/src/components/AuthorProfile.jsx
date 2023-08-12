@@ -3,7 +3,7 @@ import "../style/authorProfileStyle.css";
 
 const AuthorProfile = ({ user }) => {
   return (
-    <div className="d-flex justify-content-center align-item-center me-2">
+    <div className="d-flex justify-content-center align-item-center me-2 ">
       <img
         className="img-author-profile me-2"
         src={user.avatar}

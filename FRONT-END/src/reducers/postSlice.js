@@ -12,7 +12,13 @@ const initialState = {
 const postSlice = createSlice({
   name: "blogPosts",
   initialState,
-  reducers: {}, // per gestire funzioni sincrone
+  reducers: {
+    filterPosts: (state, action) => {
+      state.postsArray = state.postsArray.filter((post) => {
+        return post.title.toLowerCase().includes(action.payload.toLowerCase());
+      });
+    },
+  }, // per gestire funzioni sincrone
   extraReducers: (builder) => {
     builder
       //chiamata GET
@@ -42,6 +48,8 @@ const postSlice = createSlice({
           (post) => post._id !== action.payload
         );
       })
+
+      //Chiamata per cercare un post ID
       .addCase(blogPostById.fulfilled, (state, action) => {
         state.singlePost = action.payload;
       })
@@ -52,6 +60,8 @@ const postSlice = createSlice({
       .addCase(blogPostById.rejected, (state, action) => {
         state.status = "error";
       });
+
+    //Chiamata per cercare un post in base al titolo
   },
 });
 
@@ -78,6 +88,23 @@ export const postBlogPosts = createAsyncThunk(
     }
   }
 );
+
+//chiamata per la ricerca tramite il titolo del post!
+// export const searchBlogPost = createAsyncThunk(
+//   "searchBlogPost/get",
+//   async (payload) => {
+//     try {
+//       const res = await axios.get(`${endpoint}/title?postTitle=${payload}`);
+//       if (!res) {
+//         console.log(`HTTP error! status: ${res.status}`);
+//       }
+//       console.log(res.data.post);
+//       return res.data.post;
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// );
 
 export const getBlogPost = createAsyncThunk("blogPost/GET", async () => {
   try {
@@ -120,4 +147,5 @@ export const blogPostById = createAsyncThunk(
   }
 );
 
+export const { filterPosts } = postSlice.actions;
 export default postSlice.reducer;

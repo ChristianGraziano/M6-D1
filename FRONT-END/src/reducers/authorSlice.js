@@ -77,4 +77,6 @@ export const getAuthors = createAsyncThunk("authors/Get", async () => {
   }
 });
 
+// chiamata GET per carcare l'autore con id
+
 export default authorSlice.reducer;

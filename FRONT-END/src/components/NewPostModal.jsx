@@ -30,7 +30,10 @@ function NewPostModal() {
       cover: cover.current.files[0],
     };
 
-    dispatch(postBlogPosts(postPayload));
+    dispatch(postBlogPosts(postPayload)).then(() => {
+      dispatch(getBlogPost());
+      handleClose();
+    });
   };
 
   //funzione della modale di bootstrap

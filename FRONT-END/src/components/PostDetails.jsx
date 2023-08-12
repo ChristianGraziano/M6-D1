@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import { nanoid } from "@reduxjs/toolkit";
 import SpinnerLoading from "../components/SpinnerLoading";
 import "../style/postDetailsStyle.css";
+import NavigationBar from "./NavigationBar";
 
 const PostDetails = () => {
   const dispatch = useDispatch();
@@ -22,11 +23,16 @@ const PostDetails = () => {
 
   return (
     <>
+      <NavigationBar />
       {singlePost ? (
         <Container>
-          <div className="my-5">
-            <h4>{singlePost.title}</h4>
-            <img className=" img-post-details" src={singlePost.cover} alt="" />
+          <div className="my-5 pt-5">
+            <h4 className="text-center mb-2 fs-3">{singlePost.title}</h4>
+            <img
+              className=" img-post-details shadow mb-2"
+              src={singlePost.cover}
+              alt=""
+            />
             <div>
               <em>
                 Di: {singlePost.author.name} {singlePost.author.surname}

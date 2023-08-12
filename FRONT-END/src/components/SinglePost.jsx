@@ -6,6 +6,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { deleteBlogPost, getBlogPost } from "../reducers/postSlice";
+import { Link } from "react-router-dom";
 
 function SinglePost({ post }) {
   const dispatch = useDispatch();
@@ -26,17 +27,29 @@ function SinglePost({ post }) {
         <Card.Text>
           in: <em>{post.category}</em>
         </Card.Text>
-        <Button onClick={handleDelete}>
-          <FaTrashAlt />
-        </Button>
+
+        <div className="d-flex justify-content-end ">
+          <Button className="button-trash" onClick={handleDelete}>
+            <FaTrashAlt />
+          </Button>
+        </div>
+        <div className="d-flex justify-content-center">
+          <Link to={`/postDetails/${post._id}`}>
+            <Button className="button-link-details" size="sm">
+              Read All...
+            </Button>
+          </Link>
+        </div>
       </Card.Body>
 
-      {/* <Card.Footer>
+      <Card.Footer>
         <Card.Title>
-          <img src={author.avatar} />
-          {item.author.name} {author.surname}
+          <img className="img-author-post me-2" src={post.author.avatar} />
+          <span className="fs-6">
+            {post.author.name} {post.author.surname}
+          </span>
         </Card.Title>
-      </Card.Footer> */}
+      </Card.Footer>
     </Card>
     // </Col>
   );

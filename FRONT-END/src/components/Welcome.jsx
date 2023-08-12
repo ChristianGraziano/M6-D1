@@ -12,11 +12,8 @@ const Welcome = () => {
           iu mondo..
         </span>
       </div>
-      <div
-        className="d-flex justify-content-center align-items-center w-100"
-        style={{ maxWidth: "100vw" }}
-      >
-        <img src={gift_travel} alt="" />
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <img style={{ maxWidth: "100vw" }} src={gift_travel} alt="" />
       </div>
     </section>
   );

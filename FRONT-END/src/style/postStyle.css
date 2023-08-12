@@ -11,3 +11,24 @@
 .postCard-style {
   width: 18rem;
 }
+
+.img-author-post {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.button-trash {
+  background-color: transparent;
+  border: transparent;
+  color: black;
+}
+
+.button-trash:hover {
+  background-color: black;
+  color: white;
+}
+.button-link-details {
+  background-color: transparent;
+  color: blue;
+}

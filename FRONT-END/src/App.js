@@ -5,6 +5,7 @@ import ErrorPage from "./pages/ErrorPage";
 import ProtectedRoutes from "./middlerwares/ProtectedRoutes";
 import Login from "./pages/Login";
 import Success from "./pages/Success";
+import PostDetails from "./components/PostDetails";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           //tutte le rottte qui dentro saranno protette
           <Route path="/homepage" element={<Homepage />} />
+          <Route path="/postDetails/:id" element={<PostDetails />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>

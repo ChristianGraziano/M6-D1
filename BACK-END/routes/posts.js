@@ -214,4 +214,26 @@ router.patch("/posts/:id", async (req, res) => {
   }
 });
 
+//Chiamata get per cercare il post con ID
+
+router.get("/posts/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const blogPostsById = await PostModel.findById(id)
+      .populate("author", "name surname avatar")
+      .populate("comments");
+
+    res.status(200).send({
+      statusCode: 200,
+      blogPostsById,
+    });
+  } catch (error) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server Error",
+      error,
+    });
+  }
+});
 module.exports = router;

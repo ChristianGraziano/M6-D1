@@ -6,6 +6,7 @@ const endpoint = "http://localhost:5050/posts";
 const initialState = {
   postsArray: [],
   status: "idle",
+  singlePost: {},
 };
 
 const postSlice = createSlice({
@@ -40,6 +41,16 @@ const postSlice = createSlice({
         state.postsArray = state.postsArray.filter(
           (post) => post._id !== action.payload
         );
+      })
+      .addCase(blogPostById.fulfilled, (state, action) => {
+        state.singlePost = action.payload;
+      })
+      .addCase(blogPostById.pending, (state, action) => {
+        state.status = "loading";
+      })
+
+      .addCase(blogPostById.rejected, (state, action) => {
+        state.status = "error";
       });
   },
 });
@@ -87,6 +98,22 @@ export const deleteBlogPost = createAsyncThunk(
     try {
       const res = await axios.delete(`${endpoint}/${postId}`);
       return res.data.posts;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const blogPostById = createAsyncThunk(
+  "blogPosts/getById",
+  async (id) => {
+    try {
+      const res = await axios.get(`${endpoint}/` + id);
+      if (!res) {
+        console.log(`HTTP error! status: ${res.status}`);
+      }
+      console.log(res.data);
+      return res.data;
     } catch (error) {
       console.log(error);
     }

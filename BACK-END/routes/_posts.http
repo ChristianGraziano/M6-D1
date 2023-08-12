@@ -1,10 +1,14 @@
+
+#chiamata GET per cercare post tramite ID
+GET http://localhost:5050/posts/64d2cb21c8da2fe625ab8815
+#####
+
 #chiamata per filtrare i post x titolo
 GET http://localhost:5050/posts/title?postTitle=terzo
 #####
 
 
 #chiamata per avere tutti i post
-
 GET http://localhost:5050/posts/?pageSize=1000
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXRlbnRlIHByb3ZhIGxvZ2luIiwic3VybmFtZSI6ImxvZ2luIiwiYmlydGhkYXlEYXRlIjoiMTMgZ2l1Z25vIDE5OTAiLCJhdmF0YXIiOiJtYXJpbyIsImlhdCI6MTY5MTM1MTM2NCwiZXhwIjoxNjkxNDM3NzY0fQ.ZUTJ2CcgkNMhz15I6LGK1_FQR5coqwHXti_bce9nUv0
@@ -33,7 +37,7 @@ DELETE http://localhost:5050/posts/64b0706ff038a30c43acb941
 
 ##### 
 
-PATCH http://localhost:5050/posts/64b0703ad74dc7a28bfd147f
+PATCH http://localhost:5050/posts/64d2cb21c8da2fe625ab8815
 Content-Type: application/json
 
 {

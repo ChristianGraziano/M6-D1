@@ -8,9 +8,15 @@ import { useDispatch } from "react-redux";
 import { deleteBlogPost, getBlogPost } from "../reducers/postSlice";
 import { Link } from "react-router-dom";
 import { useSession } from "../middlerwares/ProtectedRoutes";
+import jwtDecode from "jwt-decode";
 
 function SinglePost({ post }) {
   const dispatch = useDispatch();
+
+  const token = JSON.parse(localStorage.getItem("userLoggedIn"));
+  const tokenDecoded = jwtDecode(token);
+
+  console.log(tokenDecoded.id);
 
   const handleDelete = () => {
     dispatch(deleteBlogPost(post._id)).then(() => dispatch(getBlogPost()));
@@ -32,11 +38,13 @@ function SinglePost({ post }) {
           in: <em>{post.category}</em>
         </Card.Text>
 
-        <div className="d-flex justify-content-end ">
-          <Button className="button-trash" onClick={handleDelete}>
-            <FaTrashAlt />
-          </Button>
-        </div>
+        {post.author._id === tokenDecoded.id && (
+          <div className="d-flex justify-content-end ">
+            <Button className="button-trash" onClick={handleDelete}>
+              <FaTrashAlt />
+            </Button>
+          </div>
+        )}
         <div className="d-flex justify-content-center">
           <Link to={`/postDetails/${post._id}`}>
             <Button className="button-link-details" size="sm">

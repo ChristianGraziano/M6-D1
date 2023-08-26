@@ -11,17 +11,30 @@ import { AiFillGithub } from "react-icons/ai";
 const Login = () => {
   const [loginFormData, setLoginFormData] = useState({});
   const navigate = useNavigate();
-  const onSubmit = async (e) => {
+  const loginSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
+    try {
+      const res = await axios.post(
+        "http://localhost:5050/login",
+        loginFormData
+      );
+      if (res.data.token) {
+        localStorage.setItem("userLoggedIn", JSON.stringify(res.data.token));
+        navigate("/homepage");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    /*  await axios
       .post("http://localhost:5050/login", loginFormData)
       .then((res) => console.log(res.data))
       .then((res) => {
         localStorage.setItem("userLoggedIn", JSON.stringify(res.data.token));
       })
       .catch((error) => console.log(error));
-    navigate("/homepage");
+    navigate("/homepage"); */
   };
 
   const handleLoginWithGithub = () => {
@@ -39,7 +52,7 @@ const Login = () => {
                     Login
                   </h3>
                   <form
-                    onSubmit={onSubmit}
+                    onSubmit={loginSubmit}
                     className="d-flex flex-column gap-3"
                   >
                     <input

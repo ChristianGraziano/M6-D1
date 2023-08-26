@@ -5,35 +5,42 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { getBlogPost, postBlogPosts } from "../reducers/postSlice";
 import Form from "react-bootstrap/Form";
+import jwtDecode from "jwt-decode";
 
 function NewPostModal() {
   const dispatch = useDispatch();
 
   const category = useRef(null);
   const title = useRef(null);
-  const author = useRef(null);
+  // const author = useRef(null);
   const content = useRef(null);
   const readTimeValue = useRef(null);
   const readTimeUnit = useRef(null);
   const cover = useRef(null);
 
   const submitForm = async () => {
-    const postPayload = {
-      category: category.current.value,
-      title: title.current.value,
-      author: author.current.value,
-      content: content.current.value,
-      readTime: {
-        value: readTimeValue.current.value,
-        unit: readTimeUnit.current.value,
-      },
-      cover: cover.current.files[0],
-    };
+    const token = localStorage.getItem("userLoggedIn");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const authorId = decodedToken.id;
 
-    dispatch(postBlogPosts(postPayload)).then(() => {
-      dispatch(getBlogPost());
-      handleClose();
-    });
+      const postPayload = {
+        category: category.current.value,
+        title: title.current.value,
+        author: authorId,
+        content: content.current.value,
+        readTime: {
+          value: readTimeValue.current.value,
+          unit: readTimeUnit.current.value,
+        },
+        cover: cover.current.files[0],
+      };
+
+      dispatch(postBlogPosts(postPayload)).then(() => {
+        dispatch(getBlogPost());
+        handleClose();
+      });
+    }
   };
 
   //funzione della modale di bootstrap
@@ -66,12 +73,12 @@ function NewPostModal() {
               ref={title}
               placeholder="Title"
             />
-            <Form.Control
+            {/* <Form.Control
               type="input"
               className="my-1"
               ref={author}
               placeholder="Author ID"
-            />
+            /> */}
             <Form.Control
               type="input"
               className="my-1"

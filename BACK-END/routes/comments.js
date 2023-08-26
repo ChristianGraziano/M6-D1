@@ -34,6 +34,33 @@ router.get("/comments", async (req, res) => {
   }
 });
 
+router.get("/comments/post/:postId", async (req, res) => {
+  try {
+    const comments = await CommentModel.find({
+      postId: req.params.postId,
+    }).populate("userName");
+
+    if (!comments || comments.length === 0) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "No Comments Found for this post",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      totalCount: comments.length,
+      comments,
+    });
+  } catch (error) {
+    res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
+      error,
+    });
+  }
+});
+
 // Chiamata POST per pubblicare un commento
 router.post("/comments/create", async (req, res) => {
   const user = await AuthorModel.findOne({ _id: req.body.userName });

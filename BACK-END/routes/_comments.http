@@ -1,3 +1,9 @@
+#chiamata per avere i commenti relativi al post con ID
+
+GET  http://localhost:5050/comments/post/64e7617ba1e426914852e168
+
+#####
+
 #Chiamata per avere tutti i commenti
 GET http://localhost:5050/comments
 
@@ -10,10 +16,10 @@ POST  http://localhost:5050/comments/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "userName": "64b97e29b91473faea476fd9",
-    "postId":"64bcfad98465bb81c338cd20",
-    "content":"Commento di prova da eliminare!!",
-    "rating": 2
+    "userName": "64d7bfc079d1ed9985d8f80b",
+    "postId":"64d53453d7a5325e9192b260",
+    "content":"il desero del sahara e un eccellente meta per le proprie vacanze!!",
+    "rating": 5
 }
 
 #####

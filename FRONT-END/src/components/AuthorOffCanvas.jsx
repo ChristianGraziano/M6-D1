@@ -75,7 +75,10 @@ function AuthorOffCanvas() {
               Search
             </Button>
           </Form>
-          <section className="d-flex flex-column justify-content-center align-item-center gap-3">
+          <section
+            className="d-flex flex-column justify-content-center
+          align-item-center gap-3"
+          >
             {authorsArray &&
               authorsArray.map((user) => {
                 return <AuthorProfile key={nanoid()} user={user} />;

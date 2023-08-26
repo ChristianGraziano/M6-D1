@@ -43,6 +43,13 @@ const authorSlice = createSlice({
       })
       .addCase(getAuthors.pending, (state, action) => {
         state.status = "pending";
+      })
+
+      //Chiamata DELETE
+      .addCase(deleteAuthor.fulfilled, (state, action) => {
+        state.authorsArray = state.authorsArray.filter(
+          (author) => author._id !== action.payload
+        );
       });
   },
 });
@@ -83,7 +90,18 @@ export const getAuthors = createAsyncThunk("authors/Get", async () => {
   }
 });
 
-// chiamata GET per carcare l'autore con id
+export const deleteAuthor = createAsyncThunk(
+  "authors/Delete",
+  async (authorId) => {
+    try {
+      const res = await axios.delete(`${endpoint}/authors/${authorId}`);
+      return res.data.authors;
+      console.log(res.data.authors);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const { filterAuthor } = authorSlice.actions;
 export default authorSlice.reducer;
